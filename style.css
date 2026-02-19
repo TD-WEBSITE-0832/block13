@@ -1,0 +1,27 @@
+body{
+    background: #425aa3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bt{
+    margin-top: 160px;
+    padding: 10px;
+    margin-left: 40px;
+    width: 140px;
+    height: 45px;
+    border: none;
+    background: #fafafa34;
+    color: whitesmoke;
+    font-size: 22px;
+ transition: all 0.6s ease-in-out ;
+    border-radius: 7px;
+}
+
+
+.bt:hover{
+    background: whitesmoke;
+    color: #425aa3;
+ transition: all 0.6s ease-in-out ;
+ box-shadow: -5px 10px 30px 10px #af5fa569;
+}
