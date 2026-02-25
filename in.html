@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card more text click</title>
+    <link rel="stylesheet" href="in.css">
+</head>
+<body>
+    <div class="block">
+        <div class="card" id="cards"></div>
+    </div>
+
+
+
+
+    <script>
+       let more = prompt("Son kiriting");
+
+if (more > 0) {
+  for (let i = 1; i <= more; i++) {
+    document.getElementById("cards").innerHTML += `
+      <div class="card">Card ${i}</div>
+    `;
+  }
+} else {
+  alert("Iltimos musbat son kiriting");
+}
+    </script>
+</body>
+</html>

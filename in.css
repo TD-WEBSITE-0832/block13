@@ -1,0 +1,27 @@
+body{
+    background: #43aff5a3;
+}
+.block{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 150px;
+}
+.card{
+    padding: 30px;
+    border: none;
+    border-radius: 13px;
+    background: #ecec1182;
+    width: 500px;
+    height: 280px;
+}
+
+
+#cards{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-right: 1300px;
+  overflow-y: auto;
+}

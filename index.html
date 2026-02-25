@@ -11,8 +11,8 @@
 <button class="bt" id="btt">Click</button>
 <button class="bt" id="btt1">Click</button>
 <button class="bt"  id="btt2">Click</button>
-<button class="bt">Click</button>
-<button class="bt">Click</button>
+<button class="bt"  id="btt3" >Click</button>
+<button class="bt"  id="btt4">Click</button>
     <script>
       let bt=document.getElementById("btt");
 
@@ -50,7 +50,16 @@
         
       })
 
+ let bt3=document.getElementById("btt3");
 
+
+      Object.assign(bt3,{
+        onclick:function(){
+            window.location.href="in.html";
+        }
+        
+        
+      })
 
       
     </script>
