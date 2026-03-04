@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card more text click</title>
-    <link rel="stylesheet" href="in.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work house</title>
+  <link rel="stylesheet" href="in.css">
 </head>
 <body>
-    <div class="block">
-        <div class="card" id="cards"></div>
+  <div class="block">
+    <div class="card">
+      <h1 id="xt">Welcome</h1>
+
+      <label for="">username:</label>
+      <input id="txt"><br><br>
+      <button type="submit" id="havclick">sumbit</button>
     </div>
+  </div>
 
 
 
+ <div class="block">
+    <div class="card">
+      <label id="le" class="dard">Counter:</label>
+      <div id="countLabel" class="dard">0</div>
 
-    <script>
-       let more = prompt("Son kiriting");
+      <div class="civ">
+        <button id="decrease" class="bt">− Decrease</button>
+        <button id="reset"     class="bt">Reset</button>
+        <button id="increase"  class="bt">+ Increase</button>
+      </div>
+    </div>
+  </div>
 
-if (more > 0) {
-  for (let i = 1; i <= more; i++) {
-    document.getElementById("cards").innerHTML += `
-      <div class="card">Card ${i}</div>
-    `;
-  }
-} else {
-  alert("Iltimos musbat son kiriting");
-}
-    </script>
+
+  <script src="in.js"></script>
 </body>
 </html>
