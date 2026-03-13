@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAMBORGHINI — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="in3.css">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #D4A017;
+    --gold-bright: #FFD700;
+    --orange: #FF6600;
+    --carbon: #0A0A0A;
+    --carbon2: #111111;
+    --steel: #1A1A1A;
+    --chrome: #C0C0C0;
+    --white: #FFFFFF;
+    --red: #CC0000;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #000;
+    cursor: none;
+  }
+
+  /* SNIPER CURSOR */
+  .cursor, .cursor-ring { display: none; }
+
+  .sniper {
+    position: fixed;
+    width: 0; height: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+  }
+  /* Outer ring */
+  .sn-outer {
+    position: absolute;
+    width: 52px; height: 52px;
+    border: 1.5px solid rgba(220,30,30,0.9);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    box-shadow: 0 0 8px rgba(255,0,0,0.35), inset 0 0 8px rgba(255,0,0,0.1);
+    animation: sniperPulse 2s ease-in-out infinite;
+  }
+  /* Middle ring */
+  .sn-mid {
+    position: absolute;
+    width: 18px; height: 18px;
+    border: 1px solid rgba(220,30,30,0.65);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  /* Center dot */
+  .sn-dot {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: #FF1111;
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    box-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000;
+  }
+  /* Cross hair lines */
+  .sn-t { position:absolute; width:1px; height:16px; background:linear-gradient(to bottom,transparent,rgba(220,30,30,0.9)); top:calc(50% - 43px); left:50%; transform:translateX(-50%); }
+  .sn-b { position:absolute; width:1px; height:16px; background:linear-gradient(to top,transparent,rgba(220,30,30,0.9));   top:calc(50% + 27px); left:50%; transform:translateX(-50%); }
+  .sn-l { position:absolute; height:1px; width:16px; background:linear-gradient(to right,transparent,rgba(220,30,30,0.9)); left:calc(50% - 43px); top:50%; transform:translateY(-50%); }
+  .sn-r { position:absolute; height:1px; width:16px; background:linear-gradient(to left,transparent,rgba(220,30,30,0.9));  left:calc(50% + 27px); top:50%; transform:translateY(-50%); }
+  /* Diagonal gap ticks on outer ring at 45° */
+  .sn-tick {
+    position:absolute; background:rgba(220,30,30,0.5);
+    top:50%; left:50%;
+  }
+
+  /* Laser trail */
+  .laser-dot {
+    position: fixed;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: rgba(255,20,20,0.7);
+    pointer-events: none;
+    z-index: 9990;
+    animation: laserFade 0.55s ease forwards;
+  }
+  @keyframes laserFade {
+    0%   { opacity: 0.9; transform: scale(1); }
+    100% { opacity: 0;   transform: scale(0.1); }
+  }
+
+  /* Scope vignette follows mouse */
+  .scope-vignette {
+    position: fixed; inset: 0; pointer-events: none; z-index: 9;
+    background: radial-gradient(
+      circle 420px at var(--mx,50%) var(--my,50%),
+      transparent 0%,
+      rgba(0,0,0,0.0) 35%,
+      rgba(0,0,0,0.25) 65%,
+      rgba(0,0,0,0.5) 100%
+    );
+  }
+
+  /* On-target (hovering clickable) */
+  .sniper.locked .sn-outer {
+    border-color: rgba(255,210,0,0.95);
+    box-shadow: 0 0 14px rgba(255,210,0,0.6), inset 0 0 8px rgba(255,210,0,0.2);
+    animation: lockPulse 0.35s ease forwards;
+  }
+  .sniper.locked .sn-dot  { background:#FFD700; box-shadow:0 0 8px #FFD700,0 0 16px #FFD700; }
+  .sniper.locked .sn-mid  { border-color: rgba(255,210,0,0.7); }
+  .sniper.locked .sn-t, .sniper.locked .sn-b { background:linear-gradient(to bottom,transparent,rgba(255,210,0,0.9)); }
+  .sniper.locked .sn-l, .sniper.locked .sn-r { background:linear-gradient(to right,transparent,rgba(255,210,0,0.9)); }
+
+  @keyframes sniperPulse {
+    0%,100% { transform:translate(-50%,-50%) scale(1);    opacity:.85; }
+    50%      { transform:translate(-50%,-50%) scale(1.07); opacity:1; }
+  }
+  @keyframes lockPulse {
+    0%  { transform:translate(-50%,-50%) scale(1);    }
+    45% { transform:translate(-50%,-50%) scale(0.86); }
+    100%{ transform:translate(-50%,-50%) scale(0.9);  }
+  }
+
+  /* SCENE */
+  .scene {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    perspective: 1200px;
+  }
+
+  /* BACKGROUND */
+  .bg-layer {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 110%, #1a0800 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 20% 50%, #0d0600 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 80% 50%, #0d0200 0%, transparent 50%),
+      #000;
+  }
+
+  /* CARBON FIBER TEXTURE */
+  .carbon-bg {
+    position: fixed; inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.015) 2px,
+        rgba(255,255,255,0.015) 4px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.015) 2px,
+        rgba(255,255,255,0.015) 4px
+      );
+    background-size: 8px 8px;
+    opacity: 0.8;
+  }
+
+  /* SPEED LINES */
+  .speed-lines {
+    position: fixed; inset: 0; overflow: hidden; pointer-events: none;
+  }
+  .speed-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    animation: speedLine 3s linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes speedLine {
+    0% { transform: translateX(-100%); opacity: 0; }
+    10% { opacity: 0.6; }
+    80% { opacity: 0.4; }
+    100% { transform: translateX(200vw); opacity: 0; }
+  }
+
+  /* PARTICLES */
+  .particles { position: fixed; inset: 0; pointer-events: none; }
+  .particle {
+    position: absolute; border-radius: 50%;
+    background: var(--gold);
+    animation: floatParticle var(--dur) linear infinite;
+    opacity: 0;
+  }
+  @keyframes floatParticle {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: var(--op); }
+    90% { opacity: var(--op); }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+  }
+
+  /* HEXAGONAL GRID */
+  .hex-grid {
+    position: fixed; inset: 0; pointer-events: none; overflow: hidden;
+  }
+  .hex-grid svg { width: 100%; height: 100%; opacity: 0.04; }
+
+  /* LAMBORGHINI LOGO SVG */
+  .lambo-logo {
+    position: absolute;
+    top: 40px; left: 50%;
+    transform: translateX(-50%);
+    width: 120px; height: 120px;
+    animation: logoFloat 4s ease-in-out infinite, logoPulse 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px var(--gold)) drop-shadow(0 0 40px var(--orange));
+    z-index: 10;
+  }
+  @keyframes logoFloat {
+    0%, 100% { transform: translateX(-50%) translateY(0px); }
+    50% { transform: translateX(-50%) translateY(-8px); }
+  }
+  @keyframes logoPulse {
+    0%, 100% { filter: drop-shadow(0 0 15px var(--gold)) drop-shadow(0 0 30px var(--orange)); }
+    50% { filter: drop-shadow(0 0 30px var(--gold-bright)) drop-shadow(0 0 60px var(--gold)); }
+  }
+
+  /* MAIN CARD */
+  .login-card {
+    position: relative;
+    width: 480px;
+    background: linear-gradient(135deg,
+      rgba(10,10,10,0.98) 0%,
+      rgba(20,15,5,0.98) 50%,
+      rgba(10,10,10,0.98) 100%
+    );
+    border: 1px solid rgba(212,160,23,0.3);
+    clip-path: polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0% 100%);
+    padding: 90px 50px 50px;
+    transform-style: preserve-3d;
+    animation: cardEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    box-shadow:
+      0 0 80px rgba(212,160,23,0.1),
+      0 0 160px rgba(255,100,0,0.05),
+      inset 0 1px 0 rgba(212,160,23,0.2),
+      inset 0 -1px 0 rgba(212,160,23,0.1);
+  }
+
+  @keyframes cardEntrance {
+    0% { opacity: 0; transform: translateY(60px) rotateX(20deg) scale(0.9); }
+    100% { opacity: 1; transform: translateY(0) rotateX(0) scale(1); }
+  }
+
+  /* CARD INNER GLOW LINE */
+  .card-glow-line {
+    position: absolute; top: 0; left: 20px; right: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-bright), var(--orange), var(--gold-bright), transparent);
+    animation: glowScan 3s ease-in-out infinite;
+  }
+  @keyframes glowScan {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; box-shadow: 0 0 20px var(--gold-bright); }
+  }
+
+  /* CORNER ACCENTS */
+  .corner {
+    position: absolute;
+    width: 24px; height: 24px;
+  }
+  .corner::before, .corner::after {
+    content: ''; position: absolute;
+    background: var(--gold-bright);
+  }
+  .corner::before { width: 100%; height: 1px; top: 0; }
+  .corner::after { width: 1px; height: 100%; }
+  .corner-tl { top: 0; left: 20px; }
+  .corner-tr { top: 0; right: 0; transform: scaleX(-1); }
+  .corner-bl { bottom: 0; left: 20px; transform: scaleY(-1); }
+  .corner-br { bottom: 0; right: 0; transform: scale(-1); }
+
+  /* TITLE */
+  .card-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 8px;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 4px;
+    animation: fadeUp 0.8s 0.4s ease forwards; opacity: 0;
+  }
+  .card-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 28px; font-weight: 900;
+    letter-spacing: 4px;
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 6px;
+    animation: fadeUp 0.8s 0.5s ease forwards; opacity: 0;
+    text-shadow: 0 0 20px rgba(212,160,23,0.5);
+  }
+  .card-subtitle {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px; font-weight: 300;
+    letter-spacing: 6px; text-transform: uppercase;
+    color: rgba(212,160,23,0.5);
+    text-align: center;
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s 0.6s ease forwards; opacity: 0;
+  }
+
+  /* DIVIDER */
+  .divider {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s 0.7s ease forwards; opacity: 0;
+  }
+  .divider-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .divider-icon {
+    font-size: 16px; color: var(--gold);
+  }
+
+  /* FORM */
+  .form-group {
+    margin-bottom: 22px;
+    animation: fadeUp 0.8s ease forwards; opacity: 0;
+    position: relative;
+  }
+  .form-group:nth-child(1) { animation-delay: 0.8s; }
+  .form-group:nth-child(2) { animation-delay: 0.9s; }
+
+  .form-label {
+    display: block;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .input-wrapper {
+    position: relative;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 14px 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(212,160,23,0.2);
+    border-left: 2px solid var(--gold);
+    color: var(--white);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px; font-weight: 400;
+    letter-spacing: 2px;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  .form-input::placeholder {
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 2px;
+  }
+  .form-input:focus {
+    background: rgba(212,160,23,0.05);
+    border-color: var(--gold);
+    border-left-color: var(--gold-bright);
+    box-shadow: 0 0 20px rgba(212,160,23,0.15), inset 0 0 10px rgba(212,160,23,0.05);
+    color: var(--gold-bright);
+  }
+
+  .input-glow {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), var(--orange));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .form-input:focus + .input-glow { transform: scaleX(1); }
+
+  /* OPTIONS */
+  .form-options {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 30px;
+    animation: fadeUp 0.8s 1s ease forwards; opacity: 0;
+  }
+  .remember-label {
+    display: flex; align-items: center; gap: 8px;
+    cursor: none;
+  }
+  .remember-check {
+    width: 14px; height: 14px;
+    border: 1px solid var(--gold);
+    background: transparent;
+    appearance: none; cursor: none;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .remember-check:checked {
+    background: var(--gold);
+    box-shadow: 0 0 10px var(--gold);
+  }
+  .remember-check:checked::after {
+    content: '✓'; position: absolute;
+    top: -2px; left: 1px;
+    font-size: 12px; color: #000; font-weight: bold;
+  }
+  .remember-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+  .forgot-link {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); text-decoration: none;
+    transition: color 0.3s, text-shadow 0.3s;
+  }
+  .forgot-link:hover {
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px var(--gold);
+  }
+
+  /* LOGIN BUTTON */
+  .btn-login {
+    width: 100%;
+    padding: 16px 30px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--orange) 50%, var(--gold) 100%);
+    background-size: 200% 100%;
+    border: none; cursor: none;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px; letter-spacing: 6px;
+    color: #000;
+    position: relative; overflow: hidden;
+    transition: all 0.4s ease;
+    animation: fadeUp 0.8s 1.1s ease forwards; opacity: 0;
+  }
+  .btn-login:hover {
+    background-position: 100% 0;
+    box-shadow: 0 0 40px rgba(212,160,23,0.6), 0 0 80px rgba(255,100,0,0.3);
+    transform: translateY(-2px);
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .btn-login:active { transform: translateY(0); }
+
+  /* BUTTON SCAN EFFECT */
+  .btn-scan {
+    position: absolute; top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: btnScan 3s ease-in-out infinite;
+  }
+  @keyframes btnScan {
+    0% { left: -100%; }
+    40%, 100% { left: 150%; }
+  }
+
+  /* SOCIAL LOGIN */
+  .social-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 24px 0;
+    animation: fadeUp 0.8s 1.2s ease forwards; opacity: 0;
+  }
+  .social-divider-line {
+    flex: 1; height: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+  .social-divider-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+
+  .social-btns {
+    display: flex; gap: 12px;
+    animation: fadeUp 0.8s 1.3s ease forwards; opacity: 0;
+  }
+  .social-btn {
+    flex: 1; padding: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    cursor: none;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.5);
+    transition: all 0.3s;
+  }
+  .social-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(212,160,23,0.05);
+    box-shadow: 0 0 20px rgba(212,160,23,0.1);
+  }
+  .social-icon { font-size: 16px; }
+
+  /* REGISTER LINK */
+  .register-link {
+    text-align: center;
+    margin-top: 24px;
+    animation: fadeUp 0.8s 1.4s ease forwards; opacity: 0;
+  }
+  .register-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.3);
+  }
+  .register-text a {
+    color: var(--gold); text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s, text-shadow 0.3s;
+  }
+  .register-text a:hover {
+    color: var(--gold-bright);
+    text-shadow: 0 0 12px var(--gold);
+  }
+
+  /* STATUS INDICATOR */
+  .status-bar {
+    position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 8px;
+    white-space: nowrap;
+  }
+  .status-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #00FF88;
+    box-shadow: 0 0 8px #00FF88;
+    animation: statusPulse 2s ease infinite;
+  }
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .status-text {
+    font-family: 'Orbitron', monospace;
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(0,255,136,0.5);
+  }
+
+  /* TACHOMETER DECORATION */
+  .tach-deco {
+    position: fixed; right: -100px; top: 50%;
+    transform: translateY(-50%);
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,160,23,0.08);
+    box-shadow:
+      0 0 0 20px rgba(212,160,23,0.03),
+      0 0 0 60px rgba(212,160,23,0.02),
+      0 0 0 120px rgba(212,160,23,0.01);
+    animation: tachSpin 20s linear infinite;
+    pointer-events: none;
+  }
+  .tach-deco::before {
+    content: '';
+    position: absolute; inset: 20px;
+    border-radius: 50%;
+    border: 1px dashed rgba(212,160,23,0.1);
+  }
+  @keyframes tachSpin { from { transform: translateY(-50%) rotate(0deg); } to { transform: translateY(-50%) rotate(360deg); } }
+
+  .tach-deco-left {
+    position: fixed; left: -120px; top: 50%;
+    transform: translateY(-50%);
+    width: 350px; height: 350px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,100,0,0.06);
+    box-shadow:
+      0 0 0 30px rgba(255,100,0,0.02),
+      0 0 0 80px rgba(255,100,0,0.01);
+    animation: tachSpinR 25s linear infinite reverse;
+    pointer-events: none;
+  }
+  @keyframes tachSpinR { from { transform: translateY(-50%) rotate(0deg); } to { transform: translateY(-50%) rotate(360deg); } }
+
+  /* BOTTOM DETAILS */
+  .bottom-details {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 30px; align-items: center;
+    pointer-events: none;
+    animation: fadeIn 1s 2s forwards; opacity: 0;
+  }
+  .detail-item {
+    font-family: 'Orbitron', monospace;
+    font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(212,160,23,0.25);
+  }
+  .detail-sep { color: rgba(212,160,23,0.15); font-size: 10px; }
+
+  /* TOP CORNER DETAILS */
+  .top-left-hud, .top-right-hud {
+    position: fixed; top: 20px;
+    font-family: 'Orbitron', monospace;
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(212,160,23,0.25);
+    animation: fadeIn 1s 1.8s forwards; opacity: 0;
+  }
+  .top-left-hud { left: 30px; }
+  .top-right-hud { right: 30px; text-align: right; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+
+  /* SCAN LINE OVERLAY */
+  .scanlines {
+    position: fixed; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.05) 0px,
+      rgba(0,0,0,0.05) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    z-index: 1;
+  }
+
+  /* LOADING OVERLAY */
+  .loading-overlay {
+    position: fixed; inset: 0;
+    background: #000;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 20px;
+    z-index: 1000;
+    animation: loadingOut 0.8s 1.5s ease forwards;
+  }
+  .loading-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 60px; letter-spacing: 12px;
+    color: var(--gold);
+    text-shadow: 0 0 40px var(--gold), 0 0 80px var(--orange);
+    animation: loadingPulse 0.5s ease-in-out infinite alternate;
+  }
+  .loading-bar-outer {
+    width: 300px; height: 2px;
+    background: rgba(212,160,23,0.2);
+    overflow: hidden;
+  }
+  .loading-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--orange));
+    animation: loadingBar 1.4s ease forwards;
+    box-shadow: 0 0 10px var(--gold);
+  }
+  .loading-text {
+    font-family: 'Orbitron', monospace;
+    font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+    color: rgba(212,160,23,0.4);
+    animation: textBlink 0.5s ease-in-out infinite alternate;
+  }
+  @keyframes loadingPulse {
+    from { text-shadow: 0 0 20px var(--gold), 0 0 40px var(--orange); }
+    to { text-shadow: 0 0 60px var(--gold-bright), 0 0 100px var(--gold); }
+  }
+  @keyframes loadingBar {
+    0% { width: 0%; } 80% { width: 100%; } 100% { width: 100%; }
+  }
+  @keyframes textBlink {
+    from { opacity: 0.3; } to { opacity: 0.8; }
+  }
+  @keyframes loadingOut {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.05); pointer-events: none; }
+  }
+
+  /* REVVING EFFECT ON SUBMIT */
+  @keyframes revEngine {
+    0% { filter: hue-rotate(0deg) brightness(1); }
+    25% { filter: hue-rotate(10deg) brightness(1.3); }
+    50% { filter: hue-rotate(-5deg) brightness(1.5); }
+    75% { filter: hue-rotate(5deg) brightness(1.2); }
+    100% { filter: hue-rotate(0deg) brightness(1); }
+  }
+
+  .login-card.rev {
+    animation: revEngine 0.4s ease forwards;
+  }
+</style>
+</head>
+<body>
+
+<!-- SNIPER CURSOR -->
+<div class="sniper" id="sniper">
+  <div class="sn-outer"></div>
+  <div class="sn-mid"></div>
+  <div class="sn-dot"></div>
+  <div class="sn-t"></div>
+  <div class="sn-b"></div>
+  <div class="sn-l"></div>
+  <div class="sn-r"></div>
+</div>
+<div class="scope-vignette" id="scopeVignette"></div>
+
+<!-- LOADING -->
+<div class="loading-overlay">
+  <div class="loading-logo">LAMBORGHINI</div>
+  <div class="loading-bar-outer">
+    <div class="loading-bar-inner"></div>
+  </div>
+  <div class="loading-text">SISTEMA YUKLANMOQDA...</div>
+</div>
+
+<!-- BACKGROUND -->
+<div class="bg-layer"></div>
+<div class="carbon-bg"></div>
+<div class="scanlines"></div>
+
+<!-- HEX GRID -->
+<div class="hex-grid">
+  <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <pattern id="hexPat" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse">
+        <polygon points="30,1 59,16 59,46 30,61 1,46 1,16" fill="none" stroke="#D4A017" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#hexPat)"/>
+  </svg>
+</div>
+
+<!-- SPEED LINES -->
+<div class="speed-lines" id="speedLines"></div>
+
+<!-- PARTICLES -->
+<div class="particles" id="particles"></div>
+
+<!-- TACH DECORATIONS -->
+<div class="tach-deco"></div>
+<div class="tach-deco-left"></div>
+
+<!-- HUD DETAILS -->
+<div class="top-left-hud">
+  SYS: ONLINE &nbsp;|&nbsp; VER 2024.X<br>
+  LAT: 41.2995° N
+</div>
+<div class="top-right-hud">
+  AUTHENTICATED: 0/1<br>
+  SESSION: AWAITING
+</div>
+
+<!-- SCENE -->
+<div class="scene">
+  <div class="login-card" id="loginCard">
+    <div class="card-glow-line"></div>
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <!-- LOGO -->
+    <div class="lambo-logo">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Shield -->
+        <path d="M100 10 L185 50 L185 140 L100 190 L15 140 L15 50 Z"
+          fill="#1A1000" stroke="#D4A017" stroke-width="3"/>
+        <!-- Inner shield -->
+        <path d="M100 25 L170 60 L170 130 L100 175 L30 130 L30 60 Z"
+          fill="none" stroke="#FF6600" stroke-width="1" opacity="0.5"/>
+        <!-- Bull -->
+        <g transform="translate(100,100) scale(0.55)">
+          <!-- Bull body -->
+          <ellipse cx="0" cy="20" rx="40" ry="28" fill="#D4A017"/>
+          <!-- Bull head -->
+          <ellipse cx="0" cy="-20" rx="28" ry="24" fill="#D4A017"/>
+          <!-- Horns -->
+          <path d="M-28,-30 Q-55,-65 -40,-75 Q-30,-65 -20,-38" fill="#D4A017"/>
+          <path d="M28,-30 Q55,-65 40,-75 Q30,-65 20,-38" fill="#D4A017"/>
+          <!-- Eyes -->
+          <circle cx="-10" cy="-24" r="5" fill="#000"/>
+          <circle cx="10" cy="-24" r="5" fill="#000"/>
+          <circle cx="-8" cy="-24" r="2" fill="#FF6600"/>
+          <circle cx="12" cy="-24" r="2" fill="#FF6600"/>
+          <!-- Nose -->
+          <ellipse cx="0" cy="-8" rx="12" ry="8" fill="#C08800"/>
+          <circle cx="-5" cy="-8" r="4" fill="#8B6000"/>
+          <circle cx="5" cy="-8" r="4" fill="#8B6000"/>
+          <!-- Legs -->
+          <rect x="-30" y="42" width="12" height="30" rx="4" fill="#D4A017"/>
+          <rect x="-10" y="42" width="12" height="30" rx="4" fill="#D4A017"/>
+          <rect x="10" y="42" width="12" height="30" rx="4" fill="#D4A017"/>
+          <rect x="22" y="42" width="12" height="30" rx="4" fill="#D4A017"/>
+          <!-- Tail -->
+          <path d="M40,10 Q70,-10 65,-40 Q60,-50 55,-40" fill="none" stroke="#D4A017" stroke-width="6" stroke-linecap="round"/>
+          <!-- Hair -->
+          <path d="M-15,-40 Q0,-70 15,-40" fill="#C08800" stroke="none"/>
+        </g>
+        <!-- Top text area -->
+        <text x="100" y="170" font-family="'Bebas Neue', sans-serif" font-size="13" fill="#D4A017" text-anchor="middle" letter-spacing="3">AUTOMOBILI</text>
+      </svg>
+    </div>
+
+    <div class="card-brand">Automobili Lamborghini</div>
+    <div class="card-title">KIRISH</div>
+    <div class="card-subtitle">VIP Mijozlar Portali</div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-icon">◆</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="email">⬡ Elektron Pochta</label>
+      <div class="input-wrapper">
+        <input class="form-input" type="email" id="email" placeholder="VIP@LAMBORGHINI.COM" autocomplete="off">
+        <div class="input-glow"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="password">⬡ Parol</label>
+      <div class="input-wrapper">
+        <input class="form-input" type="password" id="password" placeholder="••••••••••••" autocomplete="off">
+        <div class="input-glow"></div>
+      </div>
+    </div>
+
+    <div class="form-options">
+      <label class="remember-label">
+        <input class="remember-check" type="checkbox">
+        <span class="remember-text">Eslab qol</span>
+      </label>
+      <a href="#" class="forgot-link">Parolni unutdim →</a>
+    </div>
+
+    <button class="btn-login" id="loginBtn" onclick="handleLogin()">
+      <div class="btn-scan"></div>
+      TIZIMGA KIRISH
+    </button>
+
+    <div class="social-divider">
+      <div class="social-divider-line"></div>
+      <div class="social-divider-text">yoki</div>
+      <div class="social-divider-line"></div>
+    </div>
+
+    <div class="social-btns">
+      <button class="social-btn">
+        <span class="social-icon">G</span>
+        <span>Google</span>
+      </button>
+      <button class="social-btn">
+        <span class="social-icon">◈</span>
+        <span>Apple</span>
+      </button>
+      <button class="social-btn">
+        <span class="social-icon">f</span>
+        <span>Facebook</span>
+      </button>
+    </div>
+
+    <div class="register-link">
+      <div class="register-text">
+        Hisobingiz yo'qmi? <a href="#">VIP Ro'yxatdan O'tish</a>
+      </div>
+    </div>
+
+    <div class="status-bar">
+      <div class="status-dot"></div>
+      <div class="status-text">SSL Himoyalangan Ulanish</div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM DETAILS -->
+<div class="bottom-details">
+  <div class="detail-item">© 2024 Lamborghini</div>
+  <div class="detail-sep">◆</div>
+  <div class="detail-item">Sant'Agata Bolognese</div>
+  <div class="detail-sep">◆</div>
+  <div class="detail-item" id="timeDisplay">00:00:00</div>
+  <div class="detail-sep">◆</div>
+  <div class="detail-item">Italia</div>
+</div>
+
+<script>
+  // SNIPER CURSOR
+  const sniper = document.getElementById('sniper');
+  const scopeVignette = document.getElementById('scopeVignette');
+  let trailTimer = null;
+
+  document.addEventListener('mousemove', e => {
+    sniper.style.left = e.clientX + 'px';
+    sniper.style.top  = e.clientY + 'px';
+
+    // scope vignette follows mouse via CSS var
+    scopeVignette.style.setProperty('--mx', e.clientX + 'px');
+    scopeVignette.style.setProperty('--my', e.clientY + 'px');
+
+    // laser trail dot
+    const dot = document.createElement('div');
+    dot.className = 'laser-dot';
+    dot.style.left = (e.clientX - 2) + 'px';
+    dot.style.top  = (e.clientY - 2) + 'px';
+    document.body.appendChild(dot);
+    setTimeout(() => dot.remove(), 560);
+  });
+
+  // Lock on hover
+  document.querySelectorAll('button, a, input, label').forEach(el => {
+    el.addEventListener('mouseenter', () => sniper.classList.add('locked'));
+    el.addEventListener('mouseleave', () => sniper.classList.remove('locked'));
+  });
+
+  // Speed lines
+  const speedLinesContainer = document.getElementById('speedLines');
+  function createSpeedLine() {
+    const line = document.createElement('div');
+    line.className = 'speed-line';
+    line.style.top = Math.random() * 100 + 'vh';
+    line.style.width = (Math.random() * 200 + 100) + 'px';
+    line.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+    line.style.animationDelay = Math.random() * 3 + 's';
+    speedLinesContainer.appendChild(line);
+    setTimeout(() => line.remove(), 6000);
+  }
+  setInterval(createSpeedLine, 300);
+
+  // Particles
+  const particlesContainer = document.getElementById('particles');
+  function createParticle() {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 3 + 1;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.setProperty('--dur', (Math.random() * 8 + 6) + 's');
+    p.style.setProperty('--op', (Math.random() * 0.4 + 0.1).toFixed(2));
+    p.style.animationDelay = Math.random() * 5 + 's';
+    // Some orange particles
+    if (Math.random() > 0.7) p.style.background = '#FF6600';
+    particlesContainer.appendChild(p);
+    setTimeout(() => p.remove(), 14000);
+  }
+  setInterval(createParticle, 400);
+  // Initial burst
+  for (let i = 0; i < 20; i++) createParticle();
+
+  // 3D tilt card
+  const card = document.getElementById('loginCard');
+  const scene = document.querySelector('.scene');
+  scene.addEventListener('mousemove', e => {
+    const rect = scene.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `
+      rotateY(${x * 10}deg)
+      rotateX(${-y * 8}deg)
+      translateZ(20px)
+    `;
+    card.style.transition = 'transform 0.1s ease';
+  });
+  scene.addEventListener('mouseleave', () => {
+    card.style.transform = 'rotateY(0) rotateX(0) translateZ(0)';
+    card.style.transition = 'transform 0.6s ease';
+  });
+
+  // Clock
+  function updateTime() {
+    const now = new Date();
+    document.getElementById('timeDisplay').textContent =
+      now.toLocaleTimeString('uz-UZ', {hour12: false});
+  }
+  updateTime(); setInterval(updateTime, 1000);
+
+  // Login handler
+  function handleLogin() {
+    const btn = document.getElementById('loginBtn');
+    btn.textContent = 'TEKSHIRILMOQDA...';
+    btn.style.background = 'linear-gradient(135deg, #FF6600, #FF0000)';
+    card.classList.add('rev');
+
+    // Spark effect
+    for (let i = 0; i < 30; i++) {
+      setTimeout(() => createSpark(), i * 50);
+    }
+
+    setTimeout(() => {
+      btn.innerHTML = '<div class="btn-scan"></div>✓ XUSH KELIBSIZ';
+      btn.style.background = 'linear-gradient(135deg, #00CC44, #009933)';
+      document.querySelector('.top-right-hud').innerHTML =
+        'AUTHENTICATED: 1/1<br>SESSION: ACTIVE';
+    }, 2000);
+
+    // Redirect to in2.html with cinematic flash
+    setTimeout(() => {
+      const flash = document.createElement('div');
+      flash.style.cssText = `
+        position: fixed; inset: 0; background: #FFD700;
+        z-index: 9999; opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+      `;
+      document.body.appendChild(flash);
+      setTimeout(() => { flash.style.opacity = '1'; }, 50);
+      setTimeout(() => { window.location.href = 'in2.html'; }, 400);
+    }, 2600);
+  }
+
+  function createSpark() {
+    const spark = document.createElement('div');
+    spark.style.cssText = `
+      position: fixed;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: ${Math.random() > 0.5 ? '#FFD700' : '#FF6600'};
+      left: ${40 + Math.random() * 20}%;
+      top: ${40 + Math.random() * 20}%;
+      pointer-events: none;
+      z-index: 100;
+      animation: none;
+      transition: all 0.8s ease;
+    `;
+    document.body.appendChild(spark);
+    setTimeout(() => {
+      spark.style.transform = `translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px)`;
+      spark.style.opacity = '0';
+    }, 10);
+    setTimeout(() => spark.remove(), 900);
+  }
+
+  // Engine rev sound simulation via visual
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space') {
+      for (let i = 0; i < 15; i++) setTimeout(createSpark, i * 30);
+    }
+  });
+</script>
+<script src=""></script>
+</body>
+</html>
