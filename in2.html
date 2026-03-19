@@ -2,40 +2,110 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My house website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Samsung S26 Ultra - One UI 8.5</title>
     <link rel="stylesheet" href="in2.css">
 </head>
 <body>
-    
-
-    <div class="block1">
-        <div class="card1">
-            <a href="" class="txt">
-                <img src="https://4kwallpapers.com/images/walls/thumbs_2t/16996.jpg" alt="" class="ph">
-                Gift Card
-            </a>
+    <!-- Samsung Splash Screen -->
+    <div id="samsungSplash" class="samsung-splash">
+        <div class="samsung-logo-container">
+            <img src="https://cdn3d.iconscout.com/3d/free/thumb/free-samsung-3d-icon-png-download-4781226.png?f=webp" alt="Samsung" class="samsung-logo">
         </div>
-        <div class="card1">
-            <a href="" class="txt1">Home</a>
-            <a href="" class="txt1">Services</a>
-            <a href="" class="txt1">About</a>
-            <a href="" class="txt1">Contact</a>
-        </div>
-        <div class="card1">
-            <button class="bt1" type="submit" id="bt1">Login</button>
-             <button class="bt1" type="submit" id="bt2">Sign up</button>
-        </div>
-    </div>
-    <div class="block">
-        <div class="card">
-            <p class="tx"></p>
-            <button class="bt" type="submit" id="bt"></button>
+        <div class="samsung-text">SAMSUNG</div>
+        <div class="samsung-tagline">S26 Ultra</div>
+        <div class="samsung-loader">
+            <div class="samsung-progress"></div>
         </div>
     </div>
 
+    <!-- Samsung Background Effects -->
+    <div class="samsung-orb orb-blue"></div>
+    <div class="samsung-orb orb-purple"></div>
+    <div class="samsung-orb orb-cyan"></div>
 
+    <!-- Status Bar -->
+    <div class="samsung-status-bar">
+        <div class="status-left">
+            <span class="time" id="statusTime">12:45</span>
+        </div>
+        <div class="status-right">
+            <span class="icon">5G</span>
+            <span class="icon">📶</span>
+            <span class="icon">🔋</span>
+        </div>
+    </div>
 
+    <!-- Main Container -->
+    <div class="samsung-container">
+        <!-- Header Card -->
+        <div class="samsung-card header-card">
+            <div class="header-top">
+                <a href="#" class="brand-link">
+                    <img src="https://avatars.mds.yandex.net/i?id=6867d622e2f823415364787e2be2434cd8c84aae-5042173-images-thumbs&n=13" alt="Logo" class="brand-logo">
+                    <span class="brand-text">Gift Card</span>
+                </a>
+            </div>
+            <nav class="samsung-nav">
+                <a href="#" class="nav-item active">Home</a>
+                <a href="#" class="nav-item">Services</a>
+                <a href="#" class="nav-item">About</a>
+                <a href="#" class="nav-item">Contact</a>
+            </nav>
+            <div class="header-actions">
+                <button class="samsung-btn btn-outline" id="bt1">Login</button>
+                <button class="samsung-btn btn-primary" id="bt2">Sign up</button>
+            </div>
+        </div>
+
+        <!-- Hero Card -->
+        <div class="samsung-card hero-card">
+            <div class="hero-content">
+                <h1 class="hero-title">Where are you map</h1>
+                <p class="hero-subtitle">Explore the world with Samsung S26 Ultra</p>
+                <button class="samsung-btn btn-large btn-glow" id="heroBtn">Get Started</button>
+            </div>
+        </div>
+
+        <!-- Feature Cards -->
+        <div class="samsung-grid">
+            <div class="samsung-card feature-card">
+                <div class="feature-icon">🗺️</div>
+                <div class="feature-title">Navigation</div>
+                <div class="feature-desc">Advanced GPS tracking</div>
+            </div>
+            <div class="samsung-card feature-card">
+                <div class="feature-icon">📍</div>
+                <div class="feature-title">Location</div>
+                <div class="feature-desc">Real-time positioning</div>
+            </div>
+            <div class="samsung-card feature-card">
+                <div class="feature-icon">🚀</div>
+                <div class="feature-title">Speed</div>
+                <div class="feature-desc">5G connectivity</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="samsung-bottom-nav">
+        <a href="#" class="bottom-nav-item active">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <span class="nav-icon">🔍</span>
+            <span class="nav-label">Search</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <span class="nav-icon">❤️</span>
+            <span class="nav-label">Favorites</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <span class="nav-icon">👤</span>
+            <span class="nav-label">Profile</span>
+        </a>
+    </div>
 
     <script src="in2.js"></script>
 </body>

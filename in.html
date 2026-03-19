@@ -2,36 +2,162 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Work house</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>iOS 26 App</title>
   <link rel="stylesheet" href="in.css">
 </head>
 <body>
-  <div class="block">
-    <div class="card">
-      <h1 id="xt">Welcome</h1>
-
-      <label for="">username:</label>
-      <input id="txt"><br><br>
-      <button type="submit" id="havclick">sumbit</button>
+  <!-- App Launch/Splash Screen -->
+  <div id="splashScreen" class="splash-screen">
+    <div class="splash-logo">
+      <img src="https://avatars.mds.yandex.net/i?id=6867d622e2f823415364787e2be2434cd8c84aae-5042173-images-thumbs&n=13" alt="iOS Logo" class="splash-logo-img">
+    </div>
+    <div class="splash-text">iOS 26</div>
+    <div class="splash-loader">
+      <div class="splash-progress"></div>
+    </div>
+  </div>
+  
+  <!-- Floating Background Orbs -->
+  <div class="floating-orb orb-1"></div>
+  <div class="floating-orb orb-2"></div>
+  <div class="floating-orb orb-3"></div>
+  
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <div class="status-time" id="statusTime">9:41</div>
+    <div class="status-icons">
+      <span class="signal">●●●●●</span>
+      <span class="wifi">WiFi</span>
+      <span class="battery">100%</span>
     </div>
   </div>
 
-
-
- <div class="block">
-    <div class="card">
-      <label id="le" class="dard">Counter:</label>
-      <div id="countLabel" class="dard">0</div>
-
-      <div class="civ">
-        <button id="decrease" class="bt">− Decrease</button>
-        <button id="reset"     class="bt">Reset</button>
-        <button id="increase"  class="bt">+ Increase</button>
+  <!-- Main Container -->
+  <div class="ios-container">
+    <!-- DateTime Widget -->
+    <div class="widget datetime-widget">
+      <div class="datetime-content">
+        <div class="date-section">
+          <span class="month" id="currentMonth">January</span>
+          <span class="year" id="currentYear">2026</span>
+        </div>
+        <div class="time-section">
+          <span class="time" id="currentTime">09:41:30</span>
+          <span class="seconds" id="currentSeconds">30</span>
+        </div>
+        <div class="day" id="currentDay">Wednesday</div>
       </div>
     </div>
+
+    <!-- Currency Translator Widget -->
+    <div class="widget currency-widget">
+      <div class="widget-header">
+        <div class="widget-icon">💱</div>
+        <span class="widget-title">Currency Translator</span>
+      </div>
+      <div class="currency-content">
+        <div class="currency-row">
+          <select id="fromCurrency" class="currency-select">
+            <option value="USD">🇺🇸 USD</option>
+            <option value="EUR">🇪🇺 EUR</option>
+            <option value="GBP">🇬🇧 GBP</option>
+            <option value="JPY">🇯🇵 JPY</option>
+            <option value="UZS">🇺🇿 UZS</option>
+            <option value="RUB">🇷🇺 RUB</option>
+            <option value="CNY">🇨🇳 CNY</option>
+            <option value="KRW">🇰🇷 KRW</option>
+            <option value="TRY">🇹🇷 TRY</option>
+            <option value="INR">🇮🇳 INR</option>
+          </select>
+          <input type="number" id="amountInput" class="currency-input" placeholder="0.00" value="100">
+        </div>
+        
+        <div class="currency-swap">
+          <button id="swapBtn" class="swap-btn">⇅</button>
+        </div>
+        
+        <div class="currency-row">
+          <select id="toCurrency" class="currency-select">
+            <option value="USD">🇺🇸 USD</option>
+            <option value="EUR">🇪🇺 EUR</option>
+            <option value="GBP">🇬🇧 GBP</option>
+            <option value="JPY">🇯🇵 JPY</option>
+            <option value="UZS" selected>🇺🇿 UZS</option>
+            <option value="RUB">🇷🇺 RUB</option>
+            <option value="CNY">🇨🇳 CNY</option>
+            <option value="KRW">🇰🇷 KRW</option>
+            <option value="TRY">🇹🇷 TRY</option>
+            <option value="INR">🇮🇳 INR</option>
+          </select>
+          <input type="text" id="resultOutput" class="currency-input result" readonly placeholder="0.00">
+        </div>
+        
+        <div class="exchange-rate" id="exchangeRate">1 USD = 12,650 UZS</div>
+      </div>
+    </div>
+
+    <!-- Mobile Legends Hero Widget -->
+    <div class="widget hero-widget">
+      <div class="widget-header">
+        <div class="widget-icon">🎮</div>
+        <span class="widget-title">Mobile Legends</span>
+      </div>
+      <div class="hero-content" id="heroContent">
+        <div class="hero-avatar">
+          <div class="hero-image" id="martisAvatar">⚔️</div>
+          <div class="hero-role">Fighter/Assassin</div>
+        </div>
+        <div class="hero-info">
+          <h2 class="hero-name">Martis</h2>
+          <div class="hero-title">Ashura King</div>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-label">Difficulty</span>
+              <div class="stat-bar">
+                <div class="stat-fill" style="width: 60%"></div>
+              </div>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Durability</span>
+              <div class="stat-bar">
+                <div class="stat-fill" style="width: 50%"></div>
+              </div>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Offense</span>
+              <div class="stat-bar">
+                <div class="stat-fill" style="width: 90%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-skills">
+            <div class="skill" title="Passive: Ashura's Wrath">
+              <div class="skill-icon">🔥</div>
+            </div>
+            <div class="skill" title="Skill 1: Ashura Aura">
+              <div class="skill-icon">⚡</div>
+            </div>
+            <div class="skill" title="Skill 2: Mortal Coil">
+              <div class="skill-icon">🌪️</div>
+            </div>
+            <div class="skill" title="Ultimate: Decimate">
+              <div class="skill-icon">💀</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <button class="action-btn" onclick="updateCurrency()">Convert</button>
+      <button class="action-btn secondary" onclick="resetCurrency()">Reset</button>
+    </div>
   </div>
 
+  <!-- Home Indicator -->
+  <div class="home-indicator"></div>
 
   <script src="in.js"></script>
 </body>

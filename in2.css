@@ -1,28 +1,608 @@
-.txt{
-    text-decoration: none;
-    color: whitesmoke;
+/* Samsung S26 Ultra - One UI 8.5 Design System */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+:root {
+    --samsung-blue: #1428A0;
+    --samsung-light-blue: #3B5BDB;
+    --samsung-cyan: #00D4FF;
+    --samsung-purple: #7B61FF;
+    --samsung-dark: #0A0A0A;
+    --samsung-gray: #1C1C1E;
+    --samsung-light-gray: #2C2C2E;
+    --samsung-text: #FFFFFF;
+    --samsung-text-secondary: rgba(255, 255, 255, 0.7);
+    --samsung-accent: #00D4FF;
+    --samsung-radius: 24px;
+    --samsung-radius-sm: 16px;
+    --samsung-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --spring-smooth: cubic-bezier(0.4, 0.0, 0.2, 1);
+    --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+body {
+    font-family: 'Samsung One', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #0A0A0A 0%, #1a1a2e 50%, #16213e 100%);
+    min-height: 100vh;
+    color: var(--samsung-text);
+    overflow-x: hidden;
+    padding-bottom: 100px;
+    position: relative;
+}
+
+/* Samsung Splash Screen */
+.samsung-splash {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #0A0A0A, #1428A0, #0A0A0A);
+    background-size: 400% 400%;
+    animation: 
+        gradientShift 8s ease infinite,
+        splashFadeOut 0.8s var(--spring-smooth) 2.8s forwards;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: 10000;
 }
 
-.ph{
+.samsung-logo-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 28px;
+    overflow: hidden;
+    animation: 
+        samsungLogoIn 0.7s var(--spring-bounce) 0.2s both,
+        samsungLogoPulse 2s var(--spring-smooth) 1s infinite;
+    box-shadow: 
+        0 0 60px rgba(20, 40, 160, 0.6),
+        0 0 100px rgba(0, 212, 255, 0.3);
+}
+
+.samsung-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.samsung-text {
+    font-size: 36px;
+    font-weight: 700;
+    margin-top: 30px;
+    letter-spacing: 8px;
+    animation: samsungTextIn 0.6s var(--spring-smooth) 0.6s both;
+    background: linear-gradient(135deg, #fff, var(--samsung-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.samsung-tagline {
+    font-size: 18px;
+    color: var(--samsung-text-secondary);
+    margin-top: 8px;
+    letter-spacing: 4px;
+    animation: samsungTextIn 0.6s var(--spring-smooth) 0.8s both;
+}
+
+.samsung-loader {
+    width: 140px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    margin-top: 50px;
+    overflow: hidden;
+    animation: samsungLoaderIn 0.4s ease 1s both;
+}
+
+.samsung-progress {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--samsung-blue), var(--samsung-cyan));
+    border-radius: 2px;
+    animation: samsungProgress 2.2s var(--spring-smooth) 1.2s forwards;
+}
+
+/* Splash Animations */
+@keyframes samsungLogoIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(-10deg);
+    }
+    60% {
+        transform: scale(1.1) rotate(2deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes samsungLogoPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 
+            0 0 60px rgba(20, 40, 160, 0.6),
+            0 0 100px rgba(0, 212, 255, 0.3);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 
+            0 0 80px rgba(20, 40, 160, 0.8),
+            0 0 120px rgba(0, 212, 255, 0.5);
+    }
+}
+
+@keyframes samsungTextIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes samsungLoaderIn {
+    0% {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+}
+
+@keyframes samsungProgress {
+    0% { width: 0%; }
+    30% { width: 40%; }
+    60% { width: 70%; }
+    100% { width: 100%; }
+}
+
+@keyframes splashFadeOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.1);
+        visibility: hidden;
+        pointer-events: none;
+    }
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Samsung Background Orbs */
+.samsung-orb {
+    position: fixed;
     border-radius: 50%;
-    margin-right: 10px;
+    filter: blur(100px);
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: -1;
 }
 
+.orb-blue {
+    width: 400px;
+    height: 400px;
+    background: var(--samsung-blue);
+    top: -100px;
+    right: -100px;
+    animation: orbFloat1 20s ease-in-out infinite;
+}
 
-.txt1{
+.orb-purple {
+    width: 300px;
+    height: 300px;
+    background: var(--samsung-purple);
+    bottom: 20%;
+    left: -100px;
+    animation: orbFloat2 25s ease-in-out infinite;
+}
+
+.orb-cyan {
+    width: 250px;
+    height: 250px;
+    background: var(--samsung-cyan);
+    bottom: -50px;
+    right: 20%;
+    animation: orbFloat3 18s ease-in-out infinite;
+}
+
+@keyframes orbFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-50px, 50px) scale(1.1); }
+}
+
+@keyframes orbFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(40px, -30px) scale(0.9); }
+}
+
+@keyframes orbFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-30px, -40px) scale(1.05); }
+}
+
+/* Status Bar */
+.samsung-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: linear-gradient(180deg, rgba(10,10,10,0.8) 0%, transparent 100%);
+    backdrop-filter: blur(20px);
+    animation: statusBarIn 0.5s var(--spring-smooth) 3s both;
+}
+
+@keyframes statusBarIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.status-left .time {
+    font-variant-numeric: tabular-nums;
+}
+
+.status-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-right .icon {
+    font-size: 13px;
+}
+
+/* Main Container */
+.samsung-container {
+    padding: 16px 20px;
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    opacity: 0;
+    animation: containerIn 0.6s var(--spring-bounce) 3.1s forwards;
+}
+
+@keyframes containerIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Samsung Cards */
+.samsung-card {
+    background: rgba(28, 28, 30, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: var(--samsung-radius);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    box-shadow: var(--samsung-shadow);
+    transition: all 0.4s var(--spring-smooth);
+    animation: cardIn 0.5s var(--spring-bounce) both;
+}
+
+.samsung-card:nth-child(1) { animation-delay: 3.2s; }
+.samsung-card:nth-child(2) { animation-delay: 3.4s; }
+.samsung-card:nth-child(3) { animation-delay: 3.6s; }
+
+@keyframes cardIn {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    60% {
+        transform: translateY(-5px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.samsung-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(0, 212, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Header Card */
+.header-card {
+    padding: 20px;
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.brand-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     text-decoration: none;
-    color: whitesmoke;
-    margin-left: 30px;
-    transition: all 0.4s ease-in-out;
+    color: var(--samsung-text);
 }
 
+.brand-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    object-fit: cover;
+}
 
-.txt1:hover{
-    transition: all 0.4s ease-in-out;
-   color: #afaf78;
-   box-shadow: 10px 20px 40px 10px #fdfdf435;
-   border-radius: 30px;
+.brand-text {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.samsung-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.nav-item {
+    padding: 10px 18px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--samsung-text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s var(--spring-smooth);
+    background: transparent;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background: rgba(0, 212, 255, 0.15);
+    color: var(--samsung-cyan);
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Samsung Buttons */
+.samsung-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.35s var(--spring-bounce);
+    will-change: transform;
+    flex: 1;
+}
+
+.samsung-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--samsung-text);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--samsung-blue), var(--samsung-light-blue));
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--samsung-light-blue), var(--samsung-cyan));
+    box-shadow: 0 10px 30px rgba(20, 40, 160, 0.4);
+}
+
+.btn-large {
+    padding: 16px 32px;
+    font-size: 17px;
+    border-radius: 14px;
+}
+
+.btn-glow {
+    background: linear-gradient(135deg, var(--samsung-blue), var(--samsung-cyan));
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.btn-glow:hover::before {
+    transform: translateX(100%);
+}
+
+.btn-glow:hover {
+    box-shadow: 
+        0 15px 40px rgba(20, 40, 160, 0.5),
+        0 0 30px rgba(0, 212, 255, 0.3);
+}
+
+/* Hero Card */
+.hero-card {
+    padding: 40px 24px;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(20, 40, 160, 0.2), rgba(0, 212, 255, 0.1));
+}
+
+.hero-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff, var(--samsung-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 16px;
+    color: var(--samsung-text-secondary);
+    margin-bottom: 24px;
+}
+
+/* Feature Grid */
+.samsung-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.feature-card {
+    padding: 20px 12px;
+    text-align: center;
+    transition: all 0.4s var(--spring-smooth);
+}
+
+.feature-card:hover {
+    transform: translateY(-6px) scale(1.05);
+    background: rgba(0, 212, 255, 0.1);
+}
+
+.feature-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.feature-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.feature-desc {
+    font-size: 11px;
+    color: var(--samsung-text-secondary);
+}
+
+/* Bottom Navigation */
+.samsung-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0 24px;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 1000;
+    animation: bottomNavIn 0.5s var(--spring-smooth) 3.3s both;
+}
+
+@keyframes bottomNavIn {
+    0% { opacity: 0; transform: translateY(50px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: var(--samsung-text-secondary);
+    transition: all 0.3s var(--spring-smooth);
+    padding: 8px 16px;
+    border-radius: 16px;
+}
+
+.bottom-nav-item:hover,
+.bottom-nav-item.active {
+    color: var(--samsung-cyan);
+    background: rgba(0, 212, 255, 0.1);
+}
+
+.nav-icon {
+    font-size: 22px;
+}
+
+.nav-label {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .samsung-container {
+        padding: 12px 16px;
+    }
+    
+    .hero-title {
+        font-size: 28px;
+    }
+    
+    .samsung-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    
+    .feature-card {
+        padding: 16px 8px;
+    }
+    
+    .feature-icon {
+        font-size: 24px;
+    }
 }
