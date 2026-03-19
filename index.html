@@ -2,91 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Next</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Xiaomi HyperOS 2.0</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-<button class="bt" id="btt">Click 1</button>
-<button class="bt" id="btt1">Click 2</button>
-<button class="bt"  id="btt2">Click 3</button>
-<button class="bt"  id="btt3" >Click 4</button> 
-<button class="bt"  id="btt4">Click 5</button>
-<button class="bt"  id="btt5">Click 6</button>
-    <script >
-      let bt=document.getElementById("btt");
+    <!-- Xiaomi Splash Screen -->
+    <div id="xiaomiSplash" class="xiaomi-splash">
+        <div class="xiaomi-logo">
+            <svg viewBox="0 0 100 100" class="mi-logo">
+                <rect x="10" y="10" width="35" height="35" rx="8" fill="#FF6900"/>
+                <rect x="55" y="10" width="35" height="35" rx="8" fill="#FF6900"/>
+                <rect x="10" y="55" width="35" height="35" rx="8" fill="#FF6900"/>
+                <rect x="55" y="55" width="35" height="35" rx="8" fill="#FF6900"/>
+            </svg>
+        </div>
+        <div class="xiaomi-text">xiaomi</div>
+        <div class="xiaomi-tagline">HyperOS 2.0</div>
+    </div>
 
+    <!-- Xiaomi Background Orbs -->
+    <div class="xiaomi-orb orange-1"></div>
+    <div class="xiaomi-orb orange-2"></div>
+    <div class="xiaomi-orb orange-3"></div>
 
-      Object.assign(bt,{
-        onclick:function(){
-            window.location.href="https://ripen-brave-07788039.figma.site/";
-        }
+    <!-- Phone Frame -->
+    <div class="phone-frame">
+        <!-- Phone Notch -->
+        <div class="phone-notch">
+            <div class="notch-camera"></div>
+        </div>
         
-        
-      })
+        <!-- Phone Screen -->
+        <div class="phone-screen">
+            <!-- Status Bar -->
+            <div class="xiaomi-status-bar">
+                <div class="status-left">
+                    <span class="mi-brand-small">MI</span>
+                </div>
+                <div class="status-right">
+                    <span class="time" id="statusTime">12:00</span>
+                    <span class="status-icon">📶</span>
+                    <span class="status-icon">🔋</span>
+                </div>
+            </div>
 
+            <!-- Main Content -->
+            <div class="xiaomi-grid">
+            <button class="xiaomi-btn" id="btt">
+                <span class="btn-icon">🎨</span>
+                <span class="btn-text">Figma 1</span>
+            </button>
+            <button class="xiaomi-btn" id="btt1">
+                <span class="btn-icon">🎭</span>
+                <span class="btn-text">Figma 2</span>
+            </button>
+            <button class="xiaomi-btn" id="btt2">
+                <span class="btn-icon">🎯</span>
+                <span class="btn-text">Figma 3</span>
+            </button>
+            <button class="xiaomi-btn" id="btt3">
+                <span class="btn-icon">🍎</span>
+                <span class="btn-text">iOS 26</span>
+            </button>
+            <button class="xiaomi-btn" id="btt4">
+                <span class="btn-icon">📱</span>
+                <span class="btn-text">Samsung</span>
+            </button>
+            <button class="xiaomi-btn" id="btt5">
+                <span class="btn-icon">⚡</span>
+                <span class="btn-text">HyperOS</span>
+            </button>
+            </div>
+            
+            <!-- Home Indicator -->
+            <div class="xiaomi-home-indicator"></div>
+        </div>
+    </div>
 
- let bt1=document.getElementById("btt1");
-
-
-      Object.assign(bt1,{
-        onclick:function(){
-            window.location.href="https://grant-enter-31728490.figma.site/";
-        }
-        
-        
-      })
-
-
-
- let bt2=document.getElementById("btt2");
-
-
-      Object.assign(bt2,{
-        onclick:function(){
-            window.location.href="https://fizzy-tree-47741583.figma.site/#";
-        }
-        
-        
-      })
-
- let bt3=document.getElementById("btt3");
-
-
-      Object.assign(bt3,{
-        onclick:function(){
-            window.location.href="in.html";
-        }
-        
-        
-      })
-
-
-let bt4=document.getElementById("btt4");
-
-
-      Object.assign(bt4,{
-        onclick:function(){
-            window.location.href="in1.html";
-        }
-        
-        
-      })
-
-
-      
-let bt5=document.getElementById("btt5");
-
-
-      Object.assign(bt5,{
-        onclick:function(){
-            window.location.href="in2.html";
-        }
-        
-        
-      })
-      
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
